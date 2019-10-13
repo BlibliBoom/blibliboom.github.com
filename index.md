@@ -1,37 +1,135 @@
-## Welcome to GitHub Pages
+<html>
 
-You can use the [editor on GitHub](https://github.com/BlibliBoom/blibliboom.github.com/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+<head>
+    <title>基于vue+elementui</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="lib/elementui/theme-chalk/index.css" type="text/css">
+    <style>
+      /* 所有 */
+      #app{
+        width:100%; height:100%;
+      }
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+      /* 头 */
+      .header {
+        color: rgba(255,255,255,0.75);
+        line-height: 60px;
+        background-color: #24292e;
+        text-align: center;
+      }
+      .header div{
+        display: inline;
+      }
+      .title{
+      }
+      .author{
+        float: right;
+      }
+      .author-img{
+        width: 20px;
+        height: 20px;
+      }
 
-### Markdown
+      /* 内容区 */
+      .container{
+        min-height: 600px;
+        width:100%;
+        height: 100%
+      }
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+      /* 左边内容区 */
+      .left {
+        color: #4b595f;
+        width: 200px;
+      }
+      .left ul{
+        height: 90%;
+      }
 
-```markdown
-Syntax highlighted code block
+      /* 右边内容区 */
+      .right{
+        min-width: 200px;
+      }
+      tbody{
+        font-size: 15px;
+        color: #4b595f;
+      }
 
-# Header 1
-## Header 2
-### Header 3
+    </style>
+</head>
+<body>
+<div id="app">
+  <el-container class="container">
+    <el-header class="header">
+      <div class="title">
+        <span>blibliBom的个人主页</span>
+      </div>
+      <div @click="openGitHub" class="author">
+        <i class="el-icon-location-outline">yuleGH</i>
+        <img alt="@yuleGH" class="author-img" src="https://avatars2.githubusercontent.com/u/31040588?s=40&amp;v=4">
+      </div>
+    </el-header>
 
-- Bulleted
-- List
+    <el-container>
+      <el-aside class="left">
+        <el-menu :default-active="activeIndex">
+          <el-menu-item index="1" @click="open(aboutMeUrl)"><i class="el-icon-service"></i>关于我</el-menu-item>
+          <el-submenu index="firstMenu.id" v-for="firstMenu in menus" :key="firstMenu.id">
+            <template slot="title"><i :class="firstMenu.iconClass"></i>{{ firstMenu.name }}</template>
+            <el-menu-item-group v-for="secondMenu in firstMenu.children" :key="secondMenu.id">
+              <template slot="title">{{ secondMenu.name }}</template>
+              <el-menu-item v-for="thirdMenu in secondMenu.children" index="thirdMenu.id" :key="thirdMenu.id" @click="open(thirdMenu.url)">{{ thirdMenu.name }}</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+      </el-aside>
 
-1. Numbered
-2. List
+      <el-main class="right">
+          <iframe style="width:100%; height:100%; border: 0;" :src="iframeUrl"></iframe>
+      </el-main>
 
-**Bold** and _Italic_ and `Code` text
+    </el-container>
+  </el-container>
+</div>
+<!-- 引入组件库 -->
+<script type="text/javascript" src="lib/vue.js"></script>
+<script type="text/javascript" src="lib/elementui/index.js"></script>
 
-[Link](url) and ![Image](src)
-```
+<script type="text/javascript">
+    new Vue({
+        el: "#app",
+        data: {
+          activeIndex : "1",
+          aboutMeUrl : "aboutme.html",
+          iframeUrl : "aboutme.html",
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+          menus : [
+            {
+               name: "dialog",
+               id: "dialog",
+               iconClass: "el-icon-message",
+               children:[
+                 {
+                   name: "Notification 通知",
+                   id: "notification",
+                   children: [
+                     {name: "demo1", id: "noti-demo1", url: "dialog/notification/notification.html"}
+                   ]
+                 }
+               ]
+            }
+          ]
+        },
+        methods: {
+          open(url){
+            this.iframeUrl = url;
+          },
+          openGitHub(){
+            window.open("", "_blank");
+          }
+        }
+    });
+</script>
 
-### Jekyll Themes
+</body>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/BlibliBoom/blibliboom.github.com/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+</html>
